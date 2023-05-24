@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace定位到接口-->
+
+<mapper namespace="com.likejin.mybatis.mapper.BookMapper">
+
+
+    <select id="selectAll" resultType="com.likejin.mybatis.entity.Book">
+        select * from t_book
+    </select>
+
+    <select id="selectByIdAndStock" resultType="com.likejin.mybatis.entity.Book">
+        select * from t_book where id > #{arg0} and stock > #{arg1}
+    </select>
+
+
+    <insert id="Insert" useGeneratedKeys="true" keyProperty="id">
+        insert into t_book VALUES (#{id},#{name},#{price},null,null,null,null)
+    </insert>
+
+    <select id="selectByIdOrStocke" resultType="com.likejin.mybatis.entity.Book">
+        select * from t_book
+        <where>
+        <if test="id!=null">
+            id > 10
+        </if>
+        <if test="stock != null">
+            and stock > 10
+        </if>
+        </where>
+    </select>
+
+    <resultMap id="nameAndPrice" type="Book">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+    </resultMap>
+    <select id="selectByIdAndStockOrSales" resultMap="nameAndPrice">
+        select * from t_book
+        <where>
+            <choose>
+                <when test="id != null">id > #{id}</when>
+                <when test="sales != null">and sales > #{sales}</when>
+                <otherwise>and stock > #{stock}</otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+    <resultMap id="twoFormSelect" type="Book">
+        <id column="id" property="id"></id>
+        <result column="author" property="author"></result>
+        <association property="user" javaType="com.likejin.mybatis.entity.User">
+            <id column="email" property="email"/>
+        </association>
+    </resultMap>
+    <select id="selectByBookAndUser" resultMap="twoFormSelect">
+        select book.id,book.author,user.email from t_user user,t_book book where user.username = book.author
+    </select>
+
+
+    <cache/>
+</mapper>

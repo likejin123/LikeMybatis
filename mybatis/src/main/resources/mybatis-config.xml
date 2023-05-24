@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+    MyBatis核心配置文件中，标签的顺序：
+    properties?,settings?,typeAliases?,typeHandlers?,
+    objectFactory?,objectWrapperFactory?,reflectorFactory?,
+    plugins?,environments?,databaseIdProvider?,mappers?
+    -->
+    <!--将properties文件导入该作用域，可以使用properties文件的内容-->
+    <properties resource="jdbc.properties"/>
+    <!--映射数据库文件中的下划线为小驼峰
+    t_user tUser-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!--为全类名起别名，防止在mapper文件中过长-->
+    <typeAliases>
+        <!--直接为对应的类起别名，可在mapper.xml中使用-->
+        <typeAlias type="com.likejin.mybatis.entity.Book" alias="Book"/>
+        <!--为包下的类名加上别名，都为类名小写-->
+        <package name="com.likejin.testmybatis.entity"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <!--配置数据源-->
+            <!--事务控制器-->
+            <!--配置直接使用了 JDBC 的提交和回滚功能，它依赖从数据源获得的连接来管理事务作用域，无需自动提交。。-->
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--配置mapper文件所在的包-->
+    <mappers>
+        <!--指定mapper接口所在的包名，此时xml必须和mapper接口是同一个包且同名-->
+        <!--<package name="com.likejin.testmybatis.mapper"/>-->
+        <!--直接注册mapper的xml文件-->
+        <mapper resource="com/likejin/mybatis/mapper/xml/BookMapper.xml"/>
+    </mappers>
+</configuration>
