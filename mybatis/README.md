@@ -1,5 +1,5 @@
 # 一.文档结构
-1.文档结构
+## 1.文档结构
 
 ```java
 
@@ -29,7 +29,7 @@
     `-- mybatis-config.xml
 ```
 
-2.mybatis食用流程
+## 2.mybatis食用流程
 + 1.写pom
     + sql驱动依赖
     + mybatis核心依赖
