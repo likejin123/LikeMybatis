@@ -70,7 +70,7 @@
 + environment
     + id 可以配置多个环境 mysql Oracle
     + transactionManager 事务管理器  JDBC | MANAGED | 自定义
-        +  JDBC :手动提交和回滚。依赖于数据源的到的连接控制 sqlsession
+        +  JDBC :手动提交和回滚。依赖于数据源的到的连接控制 Connection
         +  MANAGED：mybatis不管理事务，程序的容器（JBOSS,WebLogic）来实现对事务的管理
         +  自定义：实现TransactionFactory接口，type指定为全类名
     + dataSource 数据源  POOLED | UNPOOLED | JNDI | 自定义
