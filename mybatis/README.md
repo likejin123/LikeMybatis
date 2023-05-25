@@ -67,6 +67,17 @@
   + package name 指明具体的mapper位置（xml文件位置必须和mapper位置相同）
 
     xml放在resources中则自动打包。xml放在java下需要配置maven打包方式。打包方式为覆盖，即配置后需要将resources也配置到build resources
++ environment
+    + id 可以配置多个环境 mysql Oracle
+    + transactionManager 事务管理器  JDBC | MANAGED | 自定义
+        +  JDBC :手动提交和回滚。依赖于数据源的到的连接控制 sqlsession
+        +  MANAGED：mybatis不管理事务，程序的容器（JBOSS,WebLogic）来实现对事务的管理
+        +  自定义：实现TransactionFactory接口，type指定为全类名
+    + dataSource 数据源  POOLED | UNPOOLED | JNDI | 自定义
+        + POOLED：使用连接池 mybatis数据库连接池
+        + UNPOOLED：不使用连接池 
+        + JNDI：在 EJB 或应用服务这类容器中查找指定的数据源
+        + 自定义：实现 DataSourceFactory 接口，定义数据源的获取方式，type是全类名
 
 ## 2.sql绑定(具体测试在controller中)
 
