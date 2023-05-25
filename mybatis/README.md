@@ -1,4 +1,5 @@
 # 一.文档结构
+1.文档结构
 
 ```java
 
@@ -27,6 +28,26 @@
     |-- log4j.properties
     `-- mybatis-config.xml
 ```
+
+2.mybatis食用流程
++ 1.写pom
+    + sql驱动依赖
+    + mybatis核心依赖
+    + （log4j依赖）
+
++ 2.主配置
+    + 类别名
+    + 数据源（jdbc.properties）
+    + 注册mapper.xml
++ 3.写mapper
+    + mapper接口类 定义方法
+    + mapper.xml唯一标识接口类中的方法的sql语句
++ 4.启动
+    + 根据配置文件创建sqlsessionFactory
+    + 根据sqlsessionFactory创建sqlsession
+    + 根据sqlsession获得mapper接口类的代理实现类
+    + 代理实现类调用对应的方法完成数据库CRUD
+    + 关闭sqlsession
 
 # 二.功能
 
