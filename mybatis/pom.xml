@@ -26,7 +26,22 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+
+        <!--配置分页插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+        <!--配置分页插件需要使用的sql解析工具-->
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>3.2</version>
+        </dependency>
     </dependencies>
+
+
 
     <build>
         <!--用了该打包方式不是增加，而是替代。-->

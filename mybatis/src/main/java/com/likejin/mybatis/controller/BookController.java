@@ -38,10 +38,18 @@
     开启二级缓存，且需要对象序列化，且需要提交
         同一个sqlsessionFactory创建的不同sqlsession
         不同sqlsession查询只执行了一个sql
+ 7.分页插件
+    解析sql语句。（获取页数据，获取当前页数据）
+        被解析语句：select * from t_book (分页 2  5)
+            解析结果：SELECT count(0) FROM t_book （计算分页数据）
+                        select * from t_book LIMIT ?, ? 5(Long), 5(Integer) （查询当前页数据）
+    结果封装到pageInfo中
  */
 
 package com.likejin.mybatis.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.likejin.mybatis.entity.Book;
 import com.likejin.mybatis.mapper.BookMapper;
 import com.likejin.mybatis.service.BookService;
@@ -70,7 +78,8 @@ public class BookController {
         //testChoose();
         //testTwoFormSelect();
         //testCache1();
-        testCache2();
+        //testCache2();
+        testPage();
         MyBatisUtil.close();
     }
     /*
@@ -164,5 +173,25 @@ public class BookController {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         BookMapper mapper = sqlSession.getMapper(BookMapper.class);
         List<Book> books1 = mapper.selectAll();
+    }
+
+
+    /*
+     * @Description 测试分页插件功能
+     * @param
+     * @return void
+     **/
+    public static void testPage(){
+        PageHelper.startPage(2,5);
+        //紧跟的第一个select方法会被分页
+        List<Book> books = bookService.selectAll();
+        //
+        PageInfo pageInfo = new PageInfo(books);
+        List<Book> list = pageInfo.getList();
+        for(Book book : list){
+            System.out.println(book);
+        }
+        System.out.println("当前页码" + pageInfo.getPageNum());
+        System.out.println("总页码" + pageInfo.getPages());
     }
 }

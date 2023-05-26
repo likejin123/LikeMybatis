@@ -23,11 +23,23 @@
         <!--为包下的类名加上别名，都为类名小写-->
         <package name="com.likejin.testmybatis.entity"/>
     </typeAliases>
+
+    <!--配置分页插件-->
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 使用下面的方式配置参数，后面会有所有的参数介绍 -->
+            <!--使用mysql的分页方式-->
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+
+
     <environments default="development">
         <environment id="development">
             <!--配置数据源-->
             <!--事务控制器-->
-            <!--配置直接使用了 JDBC 的提交和回滚功能，它依赖从数据源获得的连接来管理事务作用域，无需自动提交。。-->
+            <!--配置直接使用了 JDBC 的提交和回滚功能，它依赖从数据源获得的连接来管理事务作用域。-->
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="${jdbc.driver}"/>
