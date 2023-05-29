@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace定位到接口-->
+
+<mapper namespace="com.likejin.spring.xml.mapper.BookMapper">
+    <select id="selectAll" resultType="com.likejin.spring.xml.entity.Book">
+        select * from t_book
+    </select>
+
+</mapper>

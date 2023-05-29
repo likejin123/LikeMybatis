@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+<!--1.创建bean的三种方法
+         静态方法
+        无参构造器
+         对象的非静态方法-->
+    <!--
+        使用静态方法来创建对象。
+        factory-method属性：用来指定静态方法名。
+        注：
+            Spring容器会调用该类的静态方法来创建
+            一个对象。
+     -->
+    <bean id="bookMapper" class="com.likejin.spring.xml.util.BookProxy" factory-method="getStaticBookMapper"/>
+
+    <!--
+        使用对象的非静态方法创建对象
+    -->
+    <bean id="bookProxy" class="com.likejin.spring.xml.util.BookProxy"  ></bean>
+    <bean id="mapper" factory-bean="bookProxy" factory-method="getBookMapper"/>
+
+    <!--
+    使用无参构造器来创建对象。
+    id属性：要求唯一 。
+    class属性：要写类的完整的名称。
+    -->
+    <!--设置为byName自动注入mapper，由于mapper的set方法是SetMapper,即会找id或者name为mapper的对象注入，没有报空指针-->
+    <!--设置为byType自动注入mapper，会找类型为BookMapper的对象注入，
+        由于当前context配置了两个BookMapper类型，故会报错，只能有一个-->
+    <bean id="bookService" class="com.likejin.spring.xml.service.impl.BookServiceImpl" autowire="byName" >
+        <!--<property name="mapper" ref="bookMapper"></property>-->
+    </bean>
+<!--2.参数注入的三种方式
+    set注入初始化
+    构造器初始化
+    spring表达式初始化
+    -->
+    <!--scope属性：
+            默认为单例模式singleton，值为prototype则创建多个实例
+     init-method属性：
+            init用来指定初始化方法。
+     destroy-method属性：
+            用来指定销毁方法。
+            注:Spring容器关闭之前，会删除它所管理的bean,在删除bean之前，会调用destroy方法。销毁方法只针对作用域为singleton的bean。
+     lazy-init属性：
+            如果值为true,表示延迟加载。即容器启动之后，不会立即创建该实例，只有等到调用时(getBean)才创建
+    -->
+    <bean id="book" class="com.likejin.spring.xml.entity.Book"
+            scope="singleton"
+            init-method="initBean"
+            destroy-method="destroyBean"
+            lazy-init="false"
+            >
+    <!-- 通过SET方式注入属性的值 -->
+    <!-- 通过SET方式注入属性的值 -->
+    <!-- property节点用于配置属性的值 -->
+        <property name="name" value="老人与海"/>
+        <property name="author" value="海明威"/>
+    </bean>
+
+     <!--通过构造方法注入属性的值，提供全参-->
+     <!--constructor-arg节点用于配置构造方法的参数-->
+    <bean id="book1" class="com.likejin.spring.xml.entity.Book">
+        <constructor-arg index="0" value="500"/>
+        <constructor-arg index="1" value="老人与海1"/>
+        <constructor-arg index="2" value="50"/>
+        <constructor-arg index="3" value="海明威"/>
+        <constructor-arg index="4" value="50"/>
+        <constructor-arg index="5" value="50"/>
+        <constructor-arg index="6" value="无"/>
+    </bean>
+
+
+    <!-- 读取.properties文件 -->
+    <!-- classpath表示src/main/resources文件夹 -->
+    <util:properties id="bookConfig" location="com/likejin/spring/xml/xmlconfig/book.properties"/>
+
+    <!-- 使用Spring表达式 -->
+    <bean id="book2" class="com.likejin.spring.xml.entity.Book">
+        <property name="name" value="#{bookConfig.name}"/>
+        <property name="author" value="#{bookConfig.author}"/>
+    </bean>
+
+
+</beans>
