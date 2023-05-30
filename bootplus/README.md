@@ -10,21 +10,21 @@
 
 + 导入配置文件
 
-​		PropertySource
-
-​		ImportResource
-
-​		Import
+  	PropertySource
+    
+  	ImportResource
+    
+    Import
 
 + 事务管理
 
-​		Transactional
+  Transactional
 
 + 全局异常处理
 
-​		ControllerAdvice
+  ControllerAdvice
 
-​		ExceptionHandler
+  ExceptionHandler
 
 ## 二.对mybatisplus补充mybatis注解测试
 
