@@ -5,7 +5,7 @@
         将自己定义的bean注册到容器中
     2.注入对象
     bean：
-        类：
+        类：(无参构造器)
             1.configvscomponen
                 配置类
                 内部的配置对象会被复用。。
@@ -22,11 +22,11 @@
             1.Bean
     3.依赖注入
     DI:
-        1.Autowired
+        1.Autowired（反射无需set）
             按类型完成装配
-        2.Resourced
+        2.Resourced（反射无需set）
             先按名称装配，再按类型装配
-         3.value
+         3.value（反射无需set）
             赋值简单类型
  二.对比
     1.Configuration和Component
